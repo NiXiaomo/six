@@ -1,0 +1,101 @@
+<extend name="public/base"/>
+<block name="title">友链管理</block>
+<block name="css">
+    <!-- My CSS-->
+    <style type="text/css">
+        .panel-heading a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .panel-heading a:hover {
+            color: #cdcdcd;
+        }
+
+        #form .form-group span {
+            color: #f00;
+        }
+
+        .editor {
+            display: none;
+        }
+
+        #categorySelect {
+            display: none;
+        }
+    </style>
+</block>
+<block name="main">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h1 class="page-header">友链管理</h1>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <a href="javascript:;" id="add">
+                            <i class="fa fa-plus fa-fw"></i>
+                            添加
+                        </a>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="alert alert-info alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            添加：选中任意项添加友链；不选则添加分类。
+                        </div>
+                        <div class="col-md-6">
+                            <div id="tree"></div>
+                        </div>
+                        <div class="col-md-6 editor">
+                            <form id="form">
+                                <div class="form-group">
+                                    <span>*</span>
+                                    <label for="categoryName">分类：</label>
+                                    <input type="text" class="form-control" id="categoryName">
+                                    <select id="categorySelect" class="form-control"></select>
+                                    <input type="hidden" id="categoryID">
+                                </div>
+                                <div class="form-group">
+                                    <span>*</span>
+                                    <label for="linkName">友链名：</label>
+                                    <input type="text" class="form-control" id="linkName">
+                                    <input type="hidden" id="linkID">
+                                </div>
+                                <div class="form-group">
+                                    <span>*</span>
+                                    <label for="linkUrl">url：</label>
+                                    <input type="text" class="form-control" id="linkUrl">
+                                </div>
+                                <div class="form-group">
+                                    <label for="linkIntro">简介：<i></i></label>
+                                    <textarea name="" id="linkIntro" class="form-control"></textarea>
+                                </div>
+                            </form>
+                            <button class="btn btn-primary" id="save">保存</button>
+                            <button class="btn btn-danger" id="delete"
+                                    data-toggle="modal" data-target="#tipsModal">删除
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+    <include file="public/tips_model" content="提示：删除分类会同时删除该分类下所有友链。"/>
+</block>
+<block name="script">
+    <!-- Bootstrap TreeView JavaScript -->
+    <script src="__STATIC__/js/bootstrap-treeview.min.js"></script>
+    <script src="__STATIC__/js/link.js"></script>
+</block>

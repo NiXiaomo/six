@@ -1,0 +1,107 @@
+<extend name="public/base"/>
+<block name="title">首页</block>
+<block name="css"></block>
+<block name="main">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h1 class="page-header">控制台</h1>
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        登录日志
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>登录时间</th>
+                                    <th>登录IP</th>
+                                    <th>登录地址</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                        <div class="pull-right">
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-md-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+</block>
+<block name="script">
+    <script type="text/javascript">
+        $(function () {
+            var pageIndex = 1;
+            getLogs();
+
+            function getLogs() {
+                var params = {
+                    url: '/user_login/paginate',
+                    data: {
+                        'page': pageIndex,
+                        'size': 15
+                    },
+                    sCallback: function (res) {
+                        if (res.data) {
+                            var str = getLogsHtmlStr(res.data.data);
+                            $(".table-responsive tbody").html(str);
+                            getPageHtmlStr(res.page_html);
+                        }
+                    }
+                };
+                window.base.getData(params);
+            }
+
+            function getPageHtmlStr(pageStr) {
+                $(".pull-right").html(pageStr);
+                if (!pageStr) {
+                    return;
+                }
+
+                var aObj = $(".pull-right ul li a");
+                var href = aObj.attr('href');
+                var page = href.substr(href.length - 1, 1);
+                aObj.addClass('a-page').attr('data-id', page);
+                aObj.attr('href', 'javascript:;');
+            }
+
+            function getLogsHtmlStr(data) {
+                var len = data.length, str = '', item;
+                if (len > 0) {
+                    for (var i = 0; i < len; i++) {
+                        item = data[i];
+                        str += '<tr>' +
+                                '<td>' + item.login_time + '</td>' +
+                                '<td>' + item.login_ip + '</td>' +
+                                '<td>' + item.login_address + '</td>' +
+                                '</tr>';
+                    }
+                }
+                return str;
+            }
+
+            $(document).on('click', '.a-page', function () {
+                pageIndex = $(this).attr('data-id');
+                getLogs();
+            });
+        });
+    </script>
+</block>

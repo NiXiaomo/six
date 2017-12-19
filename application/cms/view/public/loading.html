@@ -1,0 +1,23 @@
+<!-- 加载框 -->
+<div class="opacity-loading" style="display: none;" id="loadDiv">
+    <div class="loading">
+        <span>正在加载，请稍候...</span>
+
+        <div class="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+    </div>
+</div>
+<!-- /加载框 -->
+<script type="text/javascript">
+    function showLoading() {
+        $("#loadDiv").show();
+    }
+    function hideLoading() {
+        $("#loadDiv").hide();
+    }
+</script>

@@ -1,0 +1,23 @@
+<!--警告框样式开始-->
+<div id="tipsDiv" class="warn-box" style="display: none;">
+    <div class="warn"></div>
+</div>
+<!--警告框样式结束-->
+<script type="text/javascript">
+    /**
+     * 显示提示
+     *
+     * @param tips 提示文字
+     * @param seconds 秒，默认2秒
+     */
+    function showTips(tips, seconds) {
+        var sec = 2000;
+        if (typeof(seconds) != 'undefined') {
+            sec = seconds * 1000;
+        }
+        $("#tipsDiv").show().children(".warn").html(tips);
+        setTimeout(function () {
+            $("#tipsDiv").hide();
+        }, sec);
+    }
+</script>

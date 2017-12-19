@@ -1,0 +1,108 @@
+<!-- modifyPwd模态框（Modal） -->
+<div class="modal fade" id="modifyPwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" style="width: 300px;margin: 0px auto;">
+                    <div class="form-group">
+                        <label for="inputOld">旧密码：</label>
+                        <span class="common-error-tips"></span>
+                        <input type="password" class="form-control" id="inputOld" name="old"
+                               placeholder="请输入旧密码" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNew">新密码：</label>
+                        <span class="common-error-tips"></span>
+                        <input type="password" class="form-control" id="inputNew" name="new"
+                               placeholder="请输入新密码">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputConfirm">确认密码：</label>
+                        <span class="common-error-tips"></span>
+                        <input type="password" class="form-control" id="inputConfirm" name="confirm"
+                               placeholder="请输入确认密码">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="modifyPwdSure">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="modifyPwdCancel">取消</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+<script type="text/javascript">
+    $(function () {
+        // 保存
+        $("#modifyPwdSure").click(function () {
+            var inputOld = $("#inputOld");
+            var inputNew = $("#inputNew");
+            var inputConfirm = $("#inputConfirm");
+            if (!check(inputOld, inputNew, inputConfirm)) {
+                return;
+            }
+
+            var params = {
+                url: '/cms/secret',
+                type: 'put',
+                data: {
+                    se: inputOld.val(),
+                    newSe: inputNew.val(),
+                    confirmSe: inputConfirm.val()
+                },
+                sCallback: function (res) {
+                    if (res.code == 201) {
+                        showTips("密码修改成功");
+                        $("#modifyPwdCancel").click();
+                        window.location.reload();
+                    }
+                }
+            };
+            window.base.getData(params);
+        });
+
+        // 取消
+        $("#modifyPwdCancel").click(function () {
+            clear_modify_pwd();
+        });
+
+        // 清空
+        function clear_modify_pwd() {
+            $("#inputOld").val('');
+            $("#inputNew").val('');
+            $("#inputConfirm").val('');
+        }
+
+        function check(inputOld, inputNew, inputConfirm) {
+            inputOld.prev().hide();
+            inputNew.prev().hide();
+            inputConfirm.prev().hide();
+            if ($.trim(inputOld.val()) == "" || $.trim(inputNew.val()) == "" || $.trim(inputConfirm.val()) == "") {
+                showTips("请填写完整");
+                return false;
+            }
+            if (inputOld.val() == inputNew.val()) {
+                inputNew.prev().show().text('新旧密码相同，请修改！');
+                return false;
+            }
+            if (!/^[A-Za-z0-9]{6,16}$/.test(inputNew.val())) {
+                inputNew.prev().show().text("密码由6-16位数字和大小写字母组成！");
+                return false;
+            }
+            if (inputNew.val() != inputConfirm.val()) {
+                inputConfirm.prev().show().text("确认密码不一致！");
+                return false;
+            }
+
+            return true;
+        }
+    });
+</script>

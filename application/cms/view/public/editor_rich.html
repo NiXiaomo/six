@@ -1,0 +1,177 @@
+<extend name="public/base"/>
+<block name="title">文章</block>
+<block name="css">
+    <link href="https://cdn.bootcss.com/select2/4.0.4/css/select2.min.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+</block>
+<block name="main">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h1 class="page-header">新增文章</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="form-group">
+                    <input class="form-control" id="title" autofocus>
+                </div>
+                <div class="form-group">
+                    <select class="js-example-placeholder-multiple js-data-example-ajax form-control"
+                            multiple="multiple" name="tags[]" id="tags">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div id="editor"></div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" id="submit">提交</button>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+</block>
+<block name="script">
+    <script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
+    <script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>
+    <script src="https://cdn.bootcss.com/select2/4.0.4/js/select2.min.js"></script>
+    <script type="text/javascript">
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        var max_size = 10 * 1024 * 1024;
+        var url = window.base.g_restUrl + '/upload_image';
+        //        editor.customConfig.debug = true; // 调试模式
+        editor.customConfig.zIndex = 1000;  // z-index
+        //        editor.customConfig.pasteFilterStyle = false; // 不允许带有格式粘贴文本
+        editor.customConfig.uploadFileName = 'image[]'; // 表单name
+        editor.customConfig.uploadImgServer = url;  // 服务器接口
+        editor.customConfig.uploadImgMaxSize = max_size;    // 最大尺寸
+        editor.customConfig.uploadImgTimeout = 5000;    // 超时时间
+        editor.customConfig.uploadImgParams = {
+            token: window.base.getLocalStorage('token')
+        };
+        editor.customConfig.uploadImgHooks = {
+            fail: function (xhr, editor, result) {
+                showTips('图片插入错误');
+            },
+            error: function (xhr, editor) {
+                window.base.eCallback(xhr);
+            },
+            timeout: function (xhr, editor) {
+                showTips('图片上传超时');
+            },
+            customInsert: function (insertImg, result, editor) {
+                $.each(result.urls, function (i, url) {
+                    insertImg(url);
+                });
+            }
+        };
+        editor.create();
+
+        $(function () {
+            $('.w-e-icon-image').attr('title', '图片大小请保持在' + window.base.formatSize(max_size) + '以内');
+            $("#submit").click(function () {
+                if ($.trim(editor.txt.text()) == '') {
+                    showTips('内容不能为空');
+                    return;
+                }
+                var html = editor.txt.html();
+//                html = filterXSS(html); // xss过滤，但是会顾虑掉标签的style属性
+                var params = {
+                    url: "/article?id={$id}",
+                    type: "POST",
+                    data: {
+                        title: $('#title').val(),
+                        tags: $("#tags").val(),
+                        body: html
+                    },
+                    sCallback: function (res) {
+                        if (res) {
+                            window.location.href = "/cms/article/" + res.id;
+                        }
+                    }
+                };
+                window.base.getData(params);
+            });
+
+            // select2配置
+            function formatTopic(topic) {
+                return "<div class='select2-result-repository clearfix'>" +
+                "<div class='select2-result-repository__meta'>" +
+                "<div class='select2-result-repository__title'>" +
+                topic.name ? topic.name : "ThinkPHP" +
+                "</div></div></div>";
+            }
+
+            function formatTopicSelection(topic) {
+                return topic.name || topic.text;
+            }
+
+            $(".js-example-placeholder-multiple").select2({
+                tags: true,
+                placeholder: '选择标签',
+                minimumInputLength: 2,
+                ajax: {
+                    url: window.base.g_restUrl + "/tag/q",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term
+                        };
+                    },
+                    processResults: function (data, params) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                },
+                templateResult: formatTopic,
+                templateSelection: formatTopicSelection,
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            });
+        });
+    </script>
+    <notempty name="id">
+        <script type="text/javascript">
+            $(function () {
+                getArticleByID({$id});
+
+                // 根据id获取文章内容
+                function getArticleByID(id) {
+                    var params = {
+                        url: '/article/' + id,
+                        sCallback: function (res) {
+                            if (res) {
+                                $("#title").val(res.title);
+                                for (var i = 0; i < res.tags.length; i++) {
+                                    $("#tags").append("<option value='" + res.tags[i].id + "' selected>" + res.tags[i].name + "</option>");
+                                }
+                                $(".w-e-text").html(entityToString(res.body));
+                            } else {
+                                window.location.href = '/';
+                            }
+                        }
+                    };
+                    window.base.getData(params);
+                }
+
+                // html实体转字符串
+                function entityToString(entity) {
+                    var div = document.createElement('div');
+                    div.innerHTML = entity;
+                    return div.innerText || div.textContent;
+                }
+            })
+        </script>
+    </notempty>
+</block>

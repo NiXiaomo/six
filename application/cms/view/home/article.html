@@ -1,0 +1,180 @@
+<extend name="public/base"/>
+<block name="title">文章管理</block>
+<block name="css">
+    <style type="text/css">
+        .panel-heading a {
+            text-decoration: none;
+            color: #fff;
+            float: right;
+        }
+
+        .panel-heading a:hover {
+            color: #cecece;
+        }
+
+        .tag {
+            padding: 3px 8px;
+            background-color: #4e89da;
+            margin: 0 2px;
+            border-radius: 4px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+</block>
+<block name="main">
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <h1 class="page-header">文章管理</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        文章列表
+                        <a href="/cms/article/create">
+                            <i class="fa fa-plus fa-fw"></i>添加
+                        </a>
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>最近更新</th>
+                                    <th>标题</th>
+                                    <th>标签</th>
+                                    <th>评论量</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                        <div class="pull-right">
+                        </div>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+    <include file="public/tips_model" content=""/>
+</block>
+<block name="script">
+    <script type="text/javascript">
+        $(function () {
+            var pageIndex = 1;
+            getArticles();
+
+            // 删除
+            $(document).on('click', '.delete', function () {
+                var id = $(this).parent().parent().attr('id').split('-')[1];
+                $("#tipSure").attr('data-id', id);
+
+                $("#showTips").click();
+            });
+            // 确认
+            $("#tipSure").click(function () {
+                var id = $(this).attr('data-id');
+                var params = {
+                    url: "/article/" + id,
+                    type: "DELETE",
+                    sCallback: function (res) {
+                        if (res) {
+                            showTips('删除成功');
+                            $("#tipCancel").click();
+                            $(".table-responsive table tr[id='article-" + id + "']").remove();
+                            $("#tipSure").attr('data-id', '');
+                        }
+                    }
+                };
+                window.base.getData(params);
+            });
+
+            // 获取文章
+            function getArticles() {
+                var params = {
+                    url: '/article',
+                    data: {
+                        'page': pageIndex,
+                        'size': 15
+                    },
+                    sCallback: function (res) {
+                        if (res.data) {
+                            var str = getArticlesHtmlStr(res.data.data);
+                            $(".table-responsive tbody").html(str);
+                            getPageHtmlStr(res.page_html);
+                        }
+                    }
+                };
+                window.base.getData(params);
+            }
+
+            // 获取分页字符串
+            function getPageHtmlStr(pageStr) {
+                $(".pull-right").html(pageStr);
+                if (!pageStr) {
+                    return;
+                }
+
+                var aObj = $(".pull-right ul li a");
+                var href = aObj.attr('href');
+                var page = href.substr(href.length - 1, 1);
+                aObj.addClass('a-page').attr('data-id', page);
+                aObj.attr('href', 'javascript:;');
+            }
+
+            // 获取html字符串
+            function getArticlesHtmlStr(data) {
+                var len = data.length, str = '', item;
+                if (len > 0) {
+                    for (var i = 0; i < len; i++) {
+                        item = data[i];
+                        str += "<tr id='article-" + item.id + "'>" +
+                                "<td>" + item.update_time + "</td>" +
+                                "<td title='" + item.title + "'>" + _subtext(item.title) + "</td><td>";
+                        for (var j = 0; j < item.tags.length; j++) {
+                            if (j == 2) {
+                                str += "<span class='tag'>...</span>";
+                                break;
+                            }
+                            str += "<span class='tag'>" + item.tags[j].name + "</span>";
+                        }
+                        str += "</td><td>" + 0 + "</td>" +
+                                "<td>" + "<a href='/article/" + item.id + "' target='_blank'> <i class='fa fa-eye fa-fw'></i>查看</a> " +
+                                "<a href='/cms/article/edit/" + item.id + "'><i class='fa fa-pencil fa-fw'></i>编辑</a>" +
+                                "<a href='#' class='delete'><i class='fa fa-remove fa-fw'></i>删除</a>" +
+                                "</td>" +
+                                "</tr>";
+                    }
+                }
+                return str;
+            }
+
+            $(document).on('click', '.a-page', function () {
+                pageIndex = $(this).attr('data-id');
+                getArticles();
+            });
+
+            // 截取字符串
+            function _subtext(str) {
+                if (str.length > 10) {
+                    str = str.substr(0, 10) + '...';
+                }
+                return str;
+            }
+        });
+    </script>
+</block>
