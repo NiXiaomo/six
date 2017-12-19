@@ -27,16 +27,14 @@
 <body>
 <div id="wrapper">
     <div class="col-lg-12">
-        <div class="row">
-            <div class="col-md-3 drawer">
+        <div class="row" id="main">
+            <div class="col-md-3 col-sm-5 drawer">
                 <include file="index/drawer"/>
             </div>
-            <div class="col-md-4">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cumque dicta, ea eveniet excepturi
-                libero modi perferendis placeat reprehenderit veniam. Animi dignissimos et fugit provident repudiandae
-                sequi sint veniam voluptates?
+            <div class="col-md-4 col-sm-7 body">
+                <include file="index/body"/>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 col-sm-6">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cumque dicta, ea eveniet excepturi
                 libero modi perferendis placeat reprehenderit veniam. Animi dignissimos et fugit provident repudiandae
                 sequi sint veniam voluptates?
@@ -57,9 +55,9 @@
 <script src="__STATIC__/home/common.js"></script>
 <script type="text/javascript">
     $(function () {
-        $.ajax(
-            // xxx
-        );
+        var wHeight = $(window).height();
+        $('#main').height(wHeight);
+        $('.message-ul').height(wHeight - 180);
     });
 </script>
 </body>
