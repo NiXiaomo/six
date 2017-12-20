@@ -28,13 +28,13 @@
 <div id="wrapper">
     <div class="col-lg-12">
         <div class="row" id="main">
-            <div class="col-md-3 col-sm-5 drawer">
+            <div class="col-sm-3 drawer">
                 <include file="index/drawer"/>
             </div>
-            <div class="col-md-4 col-sm-7 body">
+            <div class="col-sm-4 body">
                 <include file="index/body"/>
             </div>
-            <div class="col-md-4 col-sm-6">
+            <div class="col-sm-4 article" style="display: none">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cumque dicta, ea eveniet excepturi
                 libero modi perferendis placeat reprehenderit veniam. Animi dignissimos et fugit provident repudiandae
                 sequi sint veniam voluptates?
@@ -57,11 +57,13 @@
 <script type="text/javascript">
     $(function () {
         // body
-        $(".body .col-xs-4").eq(1).click();
+        $(".body footer .col-xs-4").eq(1).click();
 
         // 高度自适应
         $(window).resize(function () {
             var wHeight = $(this).height();
+            var wWidth = $(this).width();
+            // 高度
             if (wHeight < 600) {
                 wHeight = 600;
             }
@@ -69,6 +71,19 @@
             var ulHeight = wHeight - 180;
             $('.message-ul').height(ulHeight);
             $('.contact-ul').height(ulHeight);
+            // 宽度
+            if (wWidth < 666) {
+                $('.drawer').hide();
+                $('.body').attr('class', 'body col-xs-10');
+            } else if (wWidth < 1000) {
+                $('.drawer').show();
+                $('.drawer').attr('class', 'drawer col-xs-4');
+                $('.body').attr('class', 'body col-xs-6');
+            } else {
+                $('.drawer').show();
+                $('.drawer').attr('class', 'drawer col-sm-3');
+                $('.body').attr('class', 'body col-sm-4');
+            }
         });
         $(window).resize();
     });
