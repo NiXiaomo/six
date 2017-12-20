@@ -53,11 +53,24 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- Common JavaScript -->
 <script src="__STATIC__/home/common.js"></script>
+<script src="__STATIC__/home/body.js"></script>
 <script type="text/javascript">
     $(function () {
-        var wHeight = $(window).height();
-        $('#main').height(wHeight);
-        $('.message-ul').height(wHeight - 180);
+        // body
+        $(".body .col-xs-4").eq(1).click();
+
+        // 高度自适应
+        $(window).resize(function () {
+            var wHeight = $(this).height();
+            if (wHeight < 600) {
+                wHeight = 600;
+            }
+            $('#main').height(wHeight);
+            var ulHeight = wHeight - 180;
+            $('.message-ul').height(ulHeight);
+            $('.contact-ul').height(ulHeight);
+        });
+        $(window).resize();
     });
 </script>
 </body>
