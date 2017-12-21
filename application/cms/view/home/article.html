@@ -146,10 +146,6 @@
                                 "<td>" + item.update_time + "</td>" +
                                 "<td title='" + item.title + "'>" + _subtext(item.title) + "</td><td>";
                         for (var j = 0; j < item.tags.length; j++) {
-                            if (j == 2) {
-                                str += "<span class='tag'>...</span>";
-                                break;
-                            }
                             str += "<span class='tag'>" + item.tags[j].name + "</span>";
                         }
                         str += "</td><td>" + 0 + "</td>" +
