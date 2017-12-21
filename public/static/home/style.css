@@ -1,0 +1,319 @@
+/* 公共设置 */
+body {
+    min-width: 300px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+ul li {
+    list-style: none;
+}
+
+.avatar {
+    float: left;
+    display: block;
+    margin: 0 1rem 0 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/*加载框*/
+.opacity-loading {
+    background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0 !important;
+    width: 100%;
+    z-index: 1100;
+}
+
+.opacity-loading .loading {
+    background: #2c281e none repeat scroll 0 0;
+    border-radius: 5px;
+    height: 100px;
+    margin: 0 auto;
+    padding: 10px 0;
+    position: relative;
+    text-align: center;
+    top: 30%;
+    width: 260px;
+}
+
+.opacity-loading .loading span {
+    color: #fff;
+}
+
+.opacity-loading .loading .spinner {
+    font-size: 10px;
+    height: 60px;
+    margin-left: 90px;
+    text-align: center;
+    width: 80px;
+}
+
+.opacity-loading .loading .spinner > div {
+    background-color: #67CF22;
+    height: 100%;
+    width: 6px;
+    display: inline-block;
+    -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+    animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.opacity-loading .loading .spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.opacity-loading .loading .spinner .rect3 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+.opacity-loading .loading .spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.opacity-loading .loading .spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+    0%, 40%, 100% {
+        -webkit-transform: scaleY(0.4)
+    }
+    20% {
+        -webkit-transform: scaleY(1.0)
+    }
+}
+
+@keyframes stretchdelay {
+    0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+    }
+}
+
+/*警告框*/
+.warn-box {
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1100;
+}
+
+.warn {
+    background: #000000;
+    color: #ffffff;
+    line-height: 30px;
+    margin: 0 auto;
+    padding: 5px 15px;
+    position: relative;
+    text-align: center;
+    top: 60%;
+    max-width: 200px;
+    z-index: 1100;
+    border-radius: 5px;
+}
+
+/* drawer */
+.drawer {
+    background-color: #513D34;
+    color: #fff;
+    padding: 20px;
+    height: 100%;
+}
+
+.drawer header {
+}
+
+.drawer header .info {
+    font-size: 30px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.drawer header .info .fa-qrcode {
+    margin-top: 5px;
+}
+
+.drawer header .level {
+    color: #F7D53D;
+    margin: 10px 0;
+}
+
+/* body */
+.body {
+    padding: 0;
+    height: 100%;
+    background-color: #fff;
+}
+
+.body .title-bar {
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0 15px;
+    background-color: #6E564A;
+    color: #fff;
+}
+
+.body .title-bar .avatar {
+    margin-top: 10px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.body .title-bar .title {
+    font-size: 18px;
+}
+
+.body .title-bar .refresh {
+    font-size: 18px;
+    right: 10px;
+    top: 16px;
+    position: absolute;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.search-bar {
+    background-color: #F3F3F3;
+    text-align: center;
+    padding: 10px 0;
+    margin: 10px 15px;
+    color: #AEAEAE;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.body .tab-contact, .body .tab-situation {
+    display: none;
+}
+
+.tab-message .message-ul, .tab-contact .contact-ul {
+    background-color: #F9F9FB;
+}
+
+.tab .message-li, .tab-contact .category-li {
+    background-color: #FFFFFF;
+    cursor: pointer;
+    border-bottom: 1px #EAEAEA solid;
+}
+
+.tab .message-li:hover, .tab-contact .category-li:hover {
+    background: #E0E0E0;
+}
+
+/* 列表 */
+.tab .message-li {
+    height: 70px;
+    padding: 10px 15px;
+}
+
+.tab .message-li .avatar {
+    height: 50px;
+    width: 50px;
+    border: 1px solid #EBEAE8;
+}
+
+.tab .message-li .line {
+    margin-left: 50px;
+    color: #9C9C9C;
+    position: relative;
+}
+
+.tab .message-li .line:nth-of-type(1) {
+    margin-top: 5px;
+}
+
+.tab .message-li .user {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    margin-right: 80px;
+    font-size: 16px;
+    color: #000;
+}
+
+.tab .message-li time {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.tab .message-li .bio {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+/* 联系人 */
+.tab-contact .contact-li .user-ul {
+    display: none;
+}
+
+.tab-contact .contact-li.contact-active .user-ul {
+    display: block;
+}
+
+.tab-contact .category-li {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    color: #9C9C9C;
+}
+
+.tab-contact .category-li i {
+    font-size: 18px;
+    margin-right: 10px;
+    width: 14px;
+}
+
+.tab-contact .category-li .name {
+    color: #000;
+    font-size: 18px;
+}
+
+.tab-contact .category-li .pull-right {
+    font-size: 15px;
+}
+
+/* 底部 */
+.body footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 60px;
+    text-align: center;
+    border-top: 1px #EAEAEA solid;
+}
+
+.body footer .col-xs-4 {
+    color: #ABADBC;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 5px 0;
+}
+
+.body footer .col-xs-4:hover {
+    color: #6E564A;
+}
+
+.body footer i.fa {
+    font-size: 30px;
+    margin-bottom: 2px;
+}
