@@ -5,10 +5,15 @@ $(function () {
 
     // 选项卡切换
     $("footer .col-xs-4").click(function () {
+        if ($(this).attr('class') == $("footer .col-xs-4[artive='active']").attr('class')) {
+            return;
+        }
+        // 显示
         _clearTab();
         var tmp = $(this).css('color', '#6E564A').attr('active', 'active').attr('class').split('-');
         var footer = tmp[tmp.length - 1];
         $('.tab-' + footer).show();
+        // 修改
         if (footer == 'message') {
             $('header .title').text('消息');
             $(this).find('i').attr('class', 'fa fa-commenting');
