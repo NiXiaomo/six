@@ -24,6 +24,7 @@ $(function () {
         } else {
             $('header .title').text('动态');
             $(this).find('i').attr('class', 'fa fa-star-half-o');
+            getSituation();
         }
     });
 
@@ -32,13 +33,70 @@ $(function () {
         // click
         var footer = $("footer .col-xs-4[active='active']");
         var tmp = footer.attr('class').split('-');
-        window.base.deleteLocalStorage(tmp[tmp.length - 1]);
+        tmp = tmp[tmp.length - 1];
+        window.base.deleteLocalStorage(tmp);
         footer.click();
     }).mouseover(function () {
         $(this).addClass('fa-spin');
     }).mouseout(function () {
         $(this).removeClass('fa-spin');
     });
+
+    // 查看更多
+    var pageIndex = 1, pageSize = 5, isLoading = false;
+    $(".situation-load").click(function () {
+        if (!isLoading) {
+            $(this).hide();
+            $(".situation-loading").show();
+
+            pageIndex++;
+            getSituation(true);
+        }
+    });
+
+    // 获取动态
+    function getSituation(isMore) {
+        // 从缓存中读取数据
+        var situation = window.base.getLocalStorage(SITUATION);
+        if (situation) {
+            // 不是查看更多，即点击选项卡
+            if (!isMore) {
+                // 有列表则直接显示
+                if ($(".tab-ul .situation-li").length > 0) {
+                    return;
+                }
+                /*// （弃用）没列表则生成列表
+                // 不能直接从缓存中取数据，因为无法判断是否显示“查看更多”，以及后续的根据pageIndex
+                _generateSituation(situation);*/
+                // 没列表则刷新
+                $("header .refresh").click();
+                return;
+            }
+        } else {
+            $(".tab-ul .situation-li").remove();
+            pageIndex = 1;
+        }
+
+        var params = {
+            url: '/article',
+            data: {
+                'page': pageIndex,
+                'size': pageSize
+            },
+            sCallback: function (res) {
+                if (res && !$.isArray(res.data)) {
+                    var data = res.data.data;
+                    _generateSituation(data);
+                    // 查看更多，追加数据
+                    if (situation && isMore) {
+                        data = situation.concat(data);
+                    }
+                    window.base.setLocalStorage(SITUATION, data);
+                }
+            }
+        };
+        window.base.getData(params);
+    }
 
     // 联系人列表
     $(".tab-contact").on("click", ".category-li", function () {
@@ -63,6 +121,60 @@ $(function () {
             }
         };
         window.base.getData(params);
+    }
+
+    // 生成动态
+    var parser = new HyperDown;
+
+    function _generateSituation(data) {
+        if (data.length < pageSize) {
+            $(".situation-loading").hide();
+            $(".situation-load").hide();
+            if (data.length == 0) {
+                return;
+            }
+        } else {
+            $(".situation-loading").hide();
+            $(".situation-load").show();
+        }
+
+        // 生成
+        for (var i = 0; i < data.length; i++) {
+            var article = data[i];
+            var str = "<div class='situation-li'>" +
+                "    <div class='message-li title'>" +
+                "        <img class='avatar' src='/static/image/logo@white.png'>" +
+                "        <div class='line'>" +
+                "            <span class='user'>" + article['title'] + "</span>" +
+                "        </div>" +
+                "        <div class='line'>" +
+                "            <span class='bio'>" + article['create_time'] + "</span>" +
+                "        </div>" +
+                "    </div>" +
+                "    <div class='desc'>" + subtext(parser.makeHtml(article['body']), 200) +
+                "    </div>" +
+                "    <div class='tool-bar'>" +
+                "        <span class='look'>浏览123次</span>" +
+                "        <div class='pull-right'>" +
+                "            <i class='glyphicon glyphicon-thumbs-up'></i>" +
+                "            <i class='glyphicon glyphicon-comment'></i>" +
+                "            <i class='glyphicon glyphicon-share'></i>" +
+                "        </div>" +
+                "    </div>" +
+                "    <div class='tags'>" +
+                "        <i class='fa fa-tags'></i>" +
+                "        已添加「";
+            if (article.tags.length > 0) {
+                for (var j = 0; j < article.tags.length; j++) {
+                    str += "<a href='javascript:;' class='tag' id='tag-" + article.tags[j]['id'] + "'>"
+                        + article.tags[j]['name'] + "</a>";
+                }
+            }
+            str += "        」共" + article.tags.length + "个标签" +
+                "    </div>" +
+                "</div>";
+            $(".situation-load").before(str);
+        }
     }
 
     // 生成联系人

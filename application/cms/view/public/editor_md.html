@@ -43,6 +43,7 @@
 </block>
 <block name="script">
     <script src="https://cdn.bootcss.com/select2/4.0.4/js/select2.min.js"></script>
+    <!--<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>-->
     <script type="text/javascript">
         $(function () {
             $("#submit").click(function () {
@@ -57,7 +58,7 @@
                     showTips('标签最多三个，最少一个');
                     return;
                 }
-//                body = filterXSS(body); // xss过滤，但是会顾虑掉标签的style属性
+                // body = filterXSS(body); // xss过滤，但是会顾虑掉标签的style属性
                 var params = {
                     url: "/article?id={$id}",
                     type: "POST",
@@ -82,7 +83,7 @@
                 "<div class='select2-result-repository__meta'>" +
                 "<div class='select2-result-repository__title'>" +
                 topic.name ? topic.name : "ThinkPHP" +
-                "</div></div></div>";
+                    "</div></div></div>";
             }
 
             function formatTopicSelection(topic) {
@@ -125,7 +126,7 @@
                 // 根据id获取文章内容
                 function getArticleByID(id) {
                     var params = {
-                        url: '/article/' + id,
+                        url: '/article/' + id + '?isEdit=true',
                         sCallback: function (res) {
                             if (res) {
                                 $(".page-header").text('编辑文章');

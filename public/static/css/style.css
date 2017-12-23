@@ -40,9 +40,12 @@ ul li {
 }
 
 textarea {
-    resize: none;
-    overflow: hidden;
-    outline: none;
+    overflow: auto;
+    resize: vertical;
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
 }
 
 input {
