@@ -108,6 +108,10 @@ $(function () {
     function getContact() {
         var contact = window.base.getLocalStorage(CONTACT);
         if (contact) {
+            // 有列表则直接显示
+            if ($(".tab-ul .contact-li").length > 0) {
+                return;
+            }
             _generateContact(contact);
             return;
         }
@@ -175,6 +179,7 @@ $(function () {
                 "</div>";
             $(".situation-load").before(str);
         }
+        $(".tab-ul .situation-li:eq(0)").css('margin-top', '0px');
     }
 
     // 生成联系人
@@ -191,15 +196,15 @@ $(function () {
             if (category.links.length > 0) {
                 str += "<div class='user-ul'> ";
                 for (var j = 0; j < category.links.length; j++) {
-                    str += "<div class='message-li'> " +
-                        "<img class='avatar' src='/static/image/logo@white.png'> " +
+                    str += "<a class='message-li' href='" + getUrl(category.links[j].url) + "' target='_blank'>" +
+                        "<img class='avatar' src='" + getLogoUrl(category.links[j].logo_url) + "'> " +
                         "<div class='line'> " +
                         "<span class='user'>" + category.links[j].name + "</span> " +
                         "</div> " +
                         "<div class='line'> " +
                         "<span class='bio'>" + category.links[j].intro + "</span> " +
                         "</div> " +
-                        "</div> ";
+                        "</a> ";
                 }
                 str += "</div> ";
             }
@@ -215,5 +220,21 @@ $(function () {
         $(".footer-message").find('i').attr('class', 'fa fa-comment');
         $(".footer-contact").find('i').attr('class', 'fa fa-user');
         $(".footer-archive").find('i').attr('class', 'fa fa-star');
+    }
+
+    // 获取logo url
+    function getLogoUrl(url) {
+        if (!url) {
+            url = '/static/image/logo@default.png';
+        }
+        return url;
+    }
+
+    // 获取url
+    function getUrl(url) {
+        if (url.indexOf('http://') == -1) {
+            url = 'http://' + url;
+        }
+        return url;
     }
 });

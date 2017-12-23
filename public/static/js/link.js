@@ -75,6 +75,7 @@ $(function () {
                     id: $("#linkID").val(),
                     name: $("#linkName").val(),
                     url: $("#linkUrl").val(),
+                    logo_url: $("#linkLogoUrl").val(),
                     intro: $("#linkIntro").val()
                 }
             };
@@ -140,6 +141,7 @@ $(function () {
                             if (links[j]['id'] == link_id) {
                                 $("#linkName").val(links[j]['name']);
                                 $("#linkUrl").val(links[j]['url']);
+                                $("#linkLogoUrl").val(links[j]['logo_url']);
                                 $("#linkIntro").val(links[j]['intro']);
                                 break;
                             }
@@ -209,6 +211,7 @@ $(function () {
         $("#linkID").val('');
         $("#linkName").val('');
         $("#linkUrl").val('');
+        $("#linkLogoUrl").val('');
         $("#linkIntro").val('');
     }
 
@@ -218,6 +221,7 @@ $(function () {
         $("#linkID").parent().hide();
         $("#linkName").parent().hide();
         $("#linkUrl").parent().hide();
+        $("#linkLogoUrl").parent().hide();
         $("#linkIntro").parent().hide();
     }
 
@@ -228,6 +232,7 @@ $(function () {
         $("#linkID").parent().show();
         $("#linkName").parent().show();
         $("#linkUrl").parent().show();
+        $("#linkLogoUrl").parent().show();
         $("#linkIntro").parent().show();
     }
 });

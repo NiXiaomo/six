@@ -236,6 +236,8 @@ ul li {
 .tab .message-li {
     height: 70px;
     padding: 10px 15px;
+    text-decoration: none;
+    display: block;
 }
 
 .tab .message-li .avatar {
