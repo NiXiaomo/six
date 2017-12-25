@@ -16,6 +16,8 @@
     <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- My CSS-->
     <link href="__STATIC__/home/style.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,21 +36,36 @@
             <div class="col-sm-4 body">
                 <include file="index/body"/>
             </div>
-            <div class="col-sm-4 article" style="display: none">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid cumque dicta, ea eveniet excepturi
-                libero modi perferendis placeat reprehenderit veniam. Animi dignissimos et fugit provident repudiandae
-                sequi sint veniam voluptates?
-            </div>
+            <div class="col-sm-5 article"></div>
         </div>
         <!-- /.row -->
     </div>
     <!-- /#page-wrapper -->
 </div>
 
+<!-- alipay模态框（Modal） -->
+<div class="modal fade" id="alipayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" id="showTips" data-toggle="modal" data-target="#tipsModal"
+                        style="display: none;"></button>
+                <h4 class="modal-title">支付宝，一毛两毛不嫌少~</h4>
+            </div>
+            <div class="modal-body">
+                <img src="/static/image/alipay.png" alt="支付宝捐赠">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <include file="cms@public/tips,cms@public/loading"/>
 
-<!-- jQuery -->
-<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- Common JavaScript -->
@@ -59,7 +76,7 @@
 <script type="text/javascript">
     $(function () {
         // body
-        $(".body footer .col-xs-4").eq(1).click();
+        $(".body footer .col-xs-4").eq(2).click();
 
         // 高度自适应
         $(window).resize(function () {
@@ -70,19 +87,35 @@
                 wHeight = 600;
             }
             $('#main').height(wHeight);
+            $('.article').height(wHeight);
             $('.tab-ul').height(wHeight - 180);
             // 宽度
             if (wWidth < 666) {
                 $('.drawer').hide();
-                $('.body').attr('class', 'body col-xs-10');
+                if ($('.article .tab').length > 0) {
+                    $('.body').hide();
+                    $('.article').attr('class', 'article col-xs-12').show();
+                } else {
+                    $('.body').attr('class', 'body col-xs-12').show();
+                    $('.article').hide();
+                }
             } else if (wWidth < 1000) {
-                $('.drawer').show();
-                $('.drawer').attr('class', 'drawer col-xs-4');
-                $('.body').attr('class', 'body col-xs-6');
+                $('.drawer').attr('class', 'drawer col-xs-4').show();
+                if ($('.article .tab').length > 0) {
+                    $('.body').hide();
+                    $('.article').attr('class', 'article col-xs-8').show();
+                } else {
+                    $('.body').attr('class', 'body col-xs-8').show();
+                    $('.article').hide();
+                }
+            } else if (wWidth < 1400) {
+                $('.drawer').attr('class', 'drawer col-sm-3').show();
+                $('.body').attr('class', 'body col-sm-4').show();
+                $('.article').attr('class', 'article col-sm-5').show();
             } else {
-                $('.drawer').show();
-                $('.drawer').attr('class', 'drawer col-sm-3');
-                $('.body').attr('class', 'body col-sm-4');
+                $('.drawer').attr('class', 'drawer col-sm-2').show();
+                $('.body').attr('class', 'body col-sm-4').show();
+                $('.article').attr('class', 'article col-sm-6').show();
             }
         });
         $(window).resize();

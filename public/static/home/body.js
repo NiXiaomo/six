@@ -54,6 +54,28 @@ $(function () {
         }
     });
 
+    // 查看详情
+    $('.body').on('click', '.situation-li .user', function () {
+        var id = $(this).closest('.situation-li').attr('id').split('-')[1];
+        var params = {
+            url: '/article/' + id,
+            sCallback: function (res) {
+                if (res) {
+                    var str = '<div class="tab tab-situation">' + _getArticleStr(res) + '</div>';
+                    $('.article').html(str);
+                    $('.article .user').after('<time class="close" title="关闭">&times;</time>');
+                    $(window).resize();
+                }
+            }
+        };
+        window.base.getData(params);
+    });
+    // 关闭
+    $('.article').on('click', '.close', function () {
+        $('.article').hide().html('');
+        $(window).resize();
+    });
+
     // 获取动态
     function getSituation(isMore) {
         // 从缓存中读取数据
@@ -145,41 +167,47 @@ $(function () {
         // 生成
         for (var i = 0; i < data.length; i++) {
             var article = data[i];
-            var str = "<div class='situation-li'>" +
-                "    <div class='message-li title'>" +
-                "        <img class='avatar' src='/static/image/logo@white.png'>" +
-                "        <div class='line'>" +
-                "            <span class='user'>" + article['title'] + "</span>" +
-                "        </div>" +
-                "        <div class='line'>" +
-                "            <span class='bio'>" + article['create_time'] + "</span>" +
-                "        </div>" +
-                "    </div>" +
-                "    <div class='desc'>" + subtext(parser.makeHtml(article['body']), 200) +
-                "    </div>" +
-                "    <div class='tool-bar'>" +
-                "        <span class='look'>浏览123次</span>" +
-                "        <div class='pull-right'>" +
-                "            <i class='glyphicon glyphicon-thumbs-up'></i>" +
-                "            <i class='glyphicon glyphicon-comment'></i>" +
-                "            <i class='glyphicon glyphicon-share'></i>" +
-                "        </div>" +
-                "    </div>" +
-                "    <div class='tags'>" +
-                "        <i class='fa fa-tags'></i>" +
-                "        已添加「";
-            if (article.tags.length > 0) {
-                for (var j = 0; j < article.tags.length; j++) {
-                    str += "<a href='javascript:;' class='tag' id='tag-" + article.tags[j]['id'] + "'>"
-                        + article.tags[j]['name'] + "</a>";
-                }
-            }
-            str += "        」共" + article.tags.length + "个标签" +
-                "    </div>" +
-                "</div>";
+            var str = _getArticleStr(article, true);
             $(".situation-load").before(str);
         }
         $(".tab-ul .situation-li:eq(0)").css('margin-top', '0px');
+    }
+
+    // 获取文章内容
+    function _getArticleStr(article, isList) {
+        var str = "<div class='situation-li' id='situation-" + article['id'] + "'>" +
+            "    <div class='message-li title'>" +
+            "        <img class='avatar' src='/static/image/logo@white.png'>" +
+            "        <div class='line'>" +
+            "            <span class='user'>" + article['title'] + "</span>" +
+            "        </div>" +
+            "        <div class='line'>" +
+            "            <span class='bio' title='最近更新时间'>" + getFormatDate(article['update_time']) + "</span>" +
+            "        </div>" +
+            "    </div>" +
+            "    <div class='desc'>" + (isList ? subtext(parser.makeHtml(article['body']), 200) : parser.makeHtml(article['body'])) +
+            "    </div>" +
+            "    <div class='tool-bar'>" +
+            "        <span class='look'>浏览123次</span>" +
+            "        <div class='pull-right'>" +
+            "            <i class='glyphicon glyphicon-thumbs-up'></i>" +
+            "            <i class='glyphicon glyphicon-comment'></i>" +
+            "            <i class='glyphicon glyphicon-share'></i>" +
+            "        </div>" +
+            "    </div>" +
+            "    <div class='tags'>" +
+            "        <i class='fa fa-tags'></i>" +
+            "        已添加「";
+        if (article.tags.length > 0) {
+            for (var j = 0; j < article.tags.length; j++) {
+                str += "<a href='javascript:;' class='tag' id='tag-" + article.tags[j]['id'] + "'>"
+                    + article.tags[j]['name'] + "</a>";
+            }
+        }
+        str += "        」共" + article.tags.length + "个标签" +
+            "    </div>" +
+            "</div>";
+        return str;
     }
 
     // 生成联系人
@@ -219,7 +247,7 @@ $(function () {
         $("footer .col-xs-4").css('color', '#ABADBC').removeAttr('active');
         $(".footer-message").find('i').attr('class', 'fa fa-comment');
         $(".footer-contact").find('i').attr('class', 'fa fa-user');
-        $(".footer-archive").find('i').attr('class', 'fa fa-star');
+        $(".footer-situation").find('i').attr('class', 'fa fa-star');
     }
 
     // 获取logo url
@@ -236,5 +264,38 @@ $(function () {
             url = 'http://' + url;
         }
         return url;
+    }
+
+    // 获取格式化的时间
+    function getFormatDate(dateStr) {
+        // 今天
+        var today = new Date();
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setMilliseconds(0);
+        // 一天
+        var oneDay = 1000 * 60 * 60 * 24;
+        // 指定时间
+        var date = new Date(dateStr);
+        var year = date.getFullYear();
+        var month = _getFullDateStr(date.getMonth() + 1);
+        var day = _getFullDateStr(date.getDate());
+        var hours = _getFullDateStr(date.getHours());
+        var minutes = _getFullDateStr(date.getMinutes());
+        // 格式化时间
+        if (today.getTime() <= date.getTime() && date.getTime() < today.getTime() + oneDay) {
+            return '今天' + hours + ':' + minutes;
+        } else if (today.getTime() - oneDay <= date.getTime() && date.getTime() < today.getTime()) {
+            return '昨天' + hours + ':' + minutes;
+        } else if (today.getFullYear() == year) {
+            return month + '月' + day + '日' + hours + ':' + minutes;
+        } else {
+            return year + '年' + month + '月' + day + '日' + hours + ':' + minutes;
+        }
+    }
+
+    function _getFullDateStr(str) {
+        return str < 10 ? '0' + str : str;
     }
 });

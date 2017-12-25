@@ -1,7 +1,25 @@
 /* 公共设置 */
+*::-webkit-scrollbar { /*滚动条整体样式*/
+    width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 4px;
+}
+
+*::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+*::-webkit-scrollbar-track { /*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
 body {
     min-width: 300px;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #F3F3F3;
 }
 
 ul li {
@@ -124,15 +142,26 @@ ul li {
     border-radius: 5px;
 }
 
+/* alipay */
+#alipayModal .modal-body {
+    text-align: center;
+}
+
+#alipayModal .modal-body img {
+    max-width: 400px;
+    width: 100%;
+}
+
 /* drawer */
 .drawer {
     background-color: #513D34;
     color: #fff;
-    padding: 20px;
     height: 100%;
+    padding: 0;
 }
 
 .drawer header {
+    padding: 20px;
 }
 
 .drawer header .info {
@@ -143,11 +172,36 @@ ul li {
 
 .drawer header .info .fa-qrcode {
     margin-top: 5px;
+    cursor: pointer;
 }
 
 .drawer header .level {
     color: #F7D53D;
     margin: 10px 0;
+}
+
+.drawer .drawer-ul {
+    margin-top: 60px;
+    font-size: 20px;
+}
+
+.drawer .drawer-ul .drawer-li {
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.drawer .drawer-ul a.drawer-li {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+}
+
+.drawer .drawer-ul .drawer-li:hover {
+    background-color: #7d7169;
+}
+
+.drawer .drawer-ul .drawer-li .fa {
+    margin-right: 10px;
 }
 
 /* body */
@@ -203,23 +257,6 @@ ul li {
 .body .tab .tab-ul {
     background-color: #F9F9FB;
     overflow-y: auto;
-}
-
-.body .tab .tab-ul::-webkit-scrollbar { /*滚动条整体样式*/
-    width: 4px; /*高宽分别对应横竖滚动条的尺寸*/
-    height: 4px;
-}
-
-.body .tab .tab-ul::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
-    border-radius: 5px;
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.body .tab .tab-ul::-webkit-scrollbar-track { /*滚动条里面轨道*/
-    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 0;
-    background: rgba(0, 0, 0, 0.1);
 }
 
 .tab .message-li, .tab-contact .category-li {
@@ -346,6 +383,14 @@ ul li {
     background-color: #fff;
 }
 
+.body .tab-situation .situation-li .user {
+    cursor: pointer;
+}
+
+.body .tab-situation .situation-li .user:hover {
+    text-decoration: underline;
+}
+
 .tab-situation .situation-li .desc {
     padding: 10px 15px;
     font-size: 16px;
@@ -392,6 +437,10 @@ ul li {
     border-top: 1px #EAEAEA solid;
 }
 
+.body footer .col-xs-12 {
+    padding: 0;
+}
+
 .body footer .col-xs-4 {
     color: #ABADBC;
     cursor: pointer;
@@ -406,4 +455,13 @@ ul li {
 .body footer i.fa {
     font-size: 30px;
     margin-bottom: 2px;
+}
+
+/* article */
+.article {
+    overflow-y: auto;
+}
+
+.article .tab-situation .situation-li {
+    margin-bottom: 16px;
 }
