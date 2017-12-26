@@ -40,6 +40,7 @@ $(function () {
         var params = {
             url: url,
             type: 'DELETE',
+            tokenFlag: true,
             sCallback: function (res) {
                 $("#tipCancel").click();
                 if (res) {
@@ -55,6 +56,7 @@ $(function () {
     $("#save").click(function () {
         var params = _generateSaveParams();
         params.type = 'POST';
+        params.tokenFlag = true;
         params.sCallback = function (res) {
             // console.log(res);
             generateTree(true);

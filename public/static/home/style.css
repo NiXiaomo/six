@@ -35,6 +35,13 @@ ul li {
     border-radius: 50%;
 }
 
+.support-tips {
+    position: absolute;
+    font-size: 12px;
+    text-align: center;
+    bottom: 10px;
+}
+
 /*加载框*/
 .opacity-loading {
     background: rgba(0, 0, 0, 0.8) none repeat scroll 0 0;
@@ -183,6 +190,7 @@ ul li {
 .drawer .drawer-ul {
     margin-top: 60px;
     font-size: 20px;
+    overflow-y: auto;
 }
 
 .drawer .drawer-ul .drawer-li {

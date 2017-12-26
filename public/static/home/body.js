@@ -1,6 +1,6 @@
 $(function () {
     const MESSAGE = 'message';
-    const CONTACT = 'contact';
+    const CONTACT = 'links';
     const SITUATION = 'situation';
 
     // 选项卡切换

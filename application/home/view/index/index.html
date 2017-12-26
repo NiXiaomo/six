@@ -69,7 +69,7 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!-- Common JavaScript -->
-<script src="__STATIC__/home/common.js"></script>
+<script src="__STATIC__/js/common.js"></script>
 <script src="__STATIC__/home/tools.js"></script>
 <script src="__STATIC__/home/body.js"></script>
 <script src="__STATIC__/home/Parser.js"></script>
@@ -83,9 +83,10 @@
             var wHeight = $(this).height();
             var wWidth = $(this).width();
             // 高度
-            if (wHeight < 600) {
-                wHeight = 600;
+            if (wHeight < 400) {
+                wHeight = 400;
             }
+            $('.drawer-ul').height(wHeight - 240);
             $('#main').height(wHeight);
             $('.article').height(wHeight);
             $('.tab-ul').height(wHeight - 180);

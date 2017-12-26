@@ -1,23 +1,5 @@
-$(function () {
-    var href = window.location.href;
-    var str = '/login';
-    if (href.length - href.indexOf(str) == str.length) {
-        if (window.base.getLocalStorage('token')) {
-            window.location.href = '/';
-        }
-    } else if (!window.base.getLocalStorage('token')) {
-        window.location.href = str;
-    }
-
-    // 退出
-    $(document).on('click', '#login-out', function () {
-        window.base.deleteLocalStorage('token');
-        window.location.href = '/';
-    });
-});
-
 window.base = {
-    g_restUrl: "http://six.me/api/v1",
+    g_restUrl: "http://api.biubiubiu.moe/v1",
 
     getData: function (params) {
         showLoading();
@@ -30,7 +12,7 @@ window.base = {
             url: this.g_restUrl + params.url,
             data: params.data,
             beforeSend: function (XMLHttpRequest) {
-                if (!params.noTokenFlag) {
+                if (params.tokenFlag) {
                     XMLHttpRequest.setRequestHeader('token', that.getLocalStorage('token'));
                 }
             },

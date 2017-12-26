@@ -9,7 +9,6 @@ $(function () {
         var params = {
             url: "/cms",
             type: "post",
-            noTokenFlag: true,
             data: {
                 ac: user,
                 se: pwd

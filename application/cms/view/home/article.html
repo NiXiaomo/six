@@ -91,6 +91,7 @@
                 var params = {
                     url: "/article/" + id,
                     type: "DELETE",
+                    tokenFlag: true,
                     sCallback: function (res) {
                         if (res) {
                             showTips('删除成功');
