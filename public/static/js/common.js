@@ -83,3 +83,6 @@ window.base = {
         return size.toFixed(2) + ext[i];
     }
 };
+$(function () {
+    $(window).resize();
+});

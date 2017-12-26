@@ -77,6 +77,8 @@ $(function () {
     });
 
     // 获取动态
+    var isFirstLoaded = true;
+
     function getSituation(isMore) {
         // 从缓存中读取数据
         var situation = window.base.getLocalStorage(SITUATION);
@@ -114,6 +116,11 @@ $(function () {
                         data = situation.concat(data);
                     }
                     window.base.setLocalStorage(SITUATION, data);
+                    // 第一次加载
+                    if (isFirstLoaded) {
+                        $('.body .tab .situation-li:eq(0) .user').click();
+                        isFirstLoaded = !isFirstLoaded;
+                    }
                 }
             }
         };
