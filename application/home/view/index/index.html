@@ -28,17 +28,14 @@
 </head>
 <body>
 <div id="wrapper">
-    <div class="col-lg-12">
-        <div class="row" id="main">
-            <div class="col-sm-3 drawer">
-                <include file="index/drawer"/>
-            </div>
-            <div class="col-sm-4 body">
-                <include file="index/body"/>
-            </div>
-            <div class="col-sm-5 article"></div>
+    <div class="drawer">
+        <include file="index/drawer"/>
+    </div>
+    <div class="main">
+        <div class="col-sm-5 body">
+            <include file="index/body"/>
         </div>
-        <!-- /.row -->
+        <div class="col-sm-7 article"></div>
     </div>
     <!-- /#page-wrapper -->
 </div>
@@ -75,6 +72,12 @@
 <script src="__STATIC__/home/Parser.js"></script>
 <script type="text/javascript">
     $(function () {
+        // $('.drawer-control').sideToggle({
+        //     moving: '.drawer',
+        //     container: '.main',
+        //     direction: 'left'
+        // });
+
         // body
         $(".body footer .col-xs-4").eq(2).click();
 
@@ -86,13 +89,12 @@
             if (wHeight < 400) {
                 wHeight = 400;
             }
-            $('.drawer-ul').height(wHeight - 240);
-            $('#main').height(wHeight);
+            $('.drawer-ul').height(wHeight - 200);
+            $('.main').height(wHeight).width(wWidth - 250);
             $('.article').height(wHeight);
             $('.tab-ul').height(wHeight - 180);
             // 宽度
-            if (wWidth < 666) {
-                $('.drawer').hide();
+            if (wWidth < 1000) {
                 if ($('.article .tab').length > 0) {
                     $('.body').hide();
                     $('.article').attr('class', 'article col-xs-12').show();
@@ -100,23 +102,20 @@
                     $('.body').attr('class', 'body col-xs-12').show();
                     $('.article').hide();
                 }
-            } else if (wWidth < 1000) {
-                $('.drawer').attr('class', 'drawer col-xs-4').show();
-                if ($('.article .tab').length > 0) {
-                    $('.body').hide();
-                    $('.article').attr('class', 'article col-xs-8').show();
-                } else {
-                    $('.body').attr('class', 'body col-xs-8').show();
-                    $('.article').hide();
-                }
             } else if (wWidth < 1400) {
-                $('.drawer').attr('class', 'drawer col-sm-3').show();
-                $('.body').attr('class', 'body col-sm-4').show();
-                $('.article').attr('class', 'article col-sm-5').show();
+                $('.body').attr('class', 'body col-sm-5').show();
+                $('.article').attr('class', 'article col-sm-7').show();
             } else {
-                $('.drawer').attr('class', 'drawer col-sm-2').show();
                 $('.body').attr('class', 'body col-sm-4').show();
-                $('.article').attr('class', 'article col-sm-6').show();
+                $('.article').attr('class', 'article col-sm-8').show();
+            }
+            if (wWidth < 600) {
+                $('.drawer').hide();
+                $('.main').width(wWidth);
+                $('.main').css('left', '0');
+            } else {
+                $('.drawer').show();
+                $('.main').css('left', '250px');
             }
         });
         $(window).resize();

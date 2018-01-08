@@ -28,6 +28,24 @@ $(function () {
         }
     });
 
+    // 控制左侧菜单栏
+    $('.drawer-control').click(function () {
+        var wWidth = $(window).width();
+        var drawer = $('.drawer');
+        var main = $('.main');
+        if (drawer.is(":hidden")) {
+            drawer.show();
+            main.width(wWidth - 250).css('left', '250px');
+        } else {
+            drawer.hide();
+            main.width(wWidth).css('left', '0');
+        }
+        // 横向滚动
+        if (wWidth < 600) {
+            main.width(wWidth);
+        }
+    });
+
     // 刷新
     $("header .refresh").click(function () {
         // click
@@ -117,7 +135,7 @@ $(function () {
                     }
                     window.base.setLocalStorage(SITUATION, data);
                     // 第一次加载
-                    if (isFirstLoaded) {
+                    if (isFirstLoaded && $(window).width() >= 1000) {
                         $('.body .tab .situation-li:eq(0) .user').click();
                         isFirstLoaded = !isFirstLoaded;
                     }
