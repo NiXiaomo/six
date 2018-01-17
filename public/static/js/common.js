@@ -1,5 +1,5 @@
 window.base = {
-    g_restUrl: "http://api.biubiubiu.moe/v1",
+    g_restUrl: "https://api.nixiaomo.com/v1",
 
     getData: function (params) {
         showLoading();
