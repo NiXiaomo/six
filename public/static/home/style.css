@@ -22,10 +22,6 @@ body {
     background-color: #F3F3F3;
 }
 
-ul li {
-    list-style: none;
-}
-
 .avatar {
     float: left;
     display: block;
@@ -412,7 +408,7 @@ ul li {
 }
 
 .tab-situation .situation-li .desc img {
-    width: 100%;
+    max-width: 100%;
 }
 
 .tab-situation .situation-li .tool-bar {
