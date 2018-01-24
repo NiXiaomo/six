@@ -40,28 +40,7 @@
     <!-- /#page-wrapper -->
 </div>
 
-<!-- alipay模态框（Modal） -->
-<div class="modal fade" id="alipayModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <button type="button" id="showTips" data-toggle="modal" data-target="#tipsModal"
-                        style="display: none;"></button>
-                <h4 class="modal-title">支付宝，一毛两毛不嫌少~</h4>
-            </div>
-            <div class="modal-body">
-                <img src="/static/image/alipay.png" alt="支付宝捐赠">
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
-
-<include file="cms@public/tips,cms@public/loading"/>
+<include file="cms@public/tips,cms@public/loading,home@index/model"/>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -72,12 +51,6 @@
 <script src="__STATIC__/home/Parser.js"></script>
 <script type="text/javascript">
     $(function () {
-        // $('.drawer-control').sideToggle({
-        //     moving: '.drawer',
-        //     container: '.main',
-        //     direction: 'left'
-        // });
-
         // body
         $(".body footer .col-xs-4").eq(2).click();
 

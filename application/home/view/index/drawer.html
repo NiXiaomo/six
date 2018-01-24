@@ -15,19 +15,23 @@
         </div>
     </header>
     <div class="drawer-ul">
-        <a class="drawer-li" href="https://github.com/NiXiaomo" target="_blank">
+        <a class="drawer-li" href="https://github.com/NiXiaomo" target="_blank" rel="noreferrer">
             <i class="fa fa-github fa-fw"></i>
             <span class="text">NiXiaomo</span>
         </a>
-        <div class="drawer-li" data-target="footer-message">
+        <div class="drawer-li" data-toggle="modal" data-target="#wechatModal">
+            <i class="fa fa-wechat fa-fw"></i>
+            <span class="text">微信相关</span>
+        </div>
+        <div class="drawer-li target-footer" data-target="footer-message">
             <i class="fa fa-comments-o fa-fw"></i>
             <span class="text">消息</span>
         </div>
-        <div class="drawer-li" data-target="footer-contact">
+        <div class="drawer-li target-footer" data-target="footer-contact">
             <i class="fa fa-user-o fa-fw"></i>
             <span class="text">联系人</span>
         </div>
-        <div class="drawer-li" data-target="footer-situation">
+        <div class="drawer-li target-footer" data-target="footer-situation">
             <i class="fa fa-star-o fa-fw"></i>
             <span class="text">动态</span>
         </div>
@@ -40,7 +44,7 @@
 <script type="text/javascript">
     $(function () {
         // li
-        $('.drawer div.drawer-li').click(function () {
+        $('.drawer div.target-footer').click(function () {
             var target = $(this).attr('data-target');
             $('.' + target).click();
         });

@@ -146,13 +146,20 @@ body {
 }
 
 /* alipay */
-#alipayModal .modal-body {
+#alipayModal .modal-body img {
+    max-width: 300px;
+    width: 100%;
+}
+
+#alipayModal .modal-body, #wechatModal .modal-body {
     text-align: center;
 }
 
-#alipayModal .modal-body img {
-    max-width: 400px;
+/* wechat */
+#wechatModal .modal-body img {
+    max-width: 250px;
     width: 100%;
+    margin: 0 10px;
 }
 
 /* drawer */
@@ -210,11 +217,13 @@ body {
 .drawer .drawer-ul .drawer-li .fa {
     margin-right: 10px;
 }
-.main{
+
+.main {
     left: 250px;
     float: left;
     position: absolute;
 }
+
 /* body */
 .body {
     padding: 0;
