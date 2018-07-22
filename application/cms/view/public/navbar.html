@@ -73,13 +73,6 @@
 <span class="support-tips">©{:date('Y')} {$Think.config.setting.project_account} . All Rights Reserved</span>
 <script type="text/javascript">
     $(function () {
-        var href = window.location.href;
-        var str = '/login';
-        var token = window.base.getLocalStorage('token');
-        if ((href.length - href.indexOf(str) == str.length && token) || !token) {
-            window.location.href = '/';
-        }
-
         // 退出
         $(document).on('click', '#login-out', function () {
             window.base.deleteLocalStorage('token');

@@ -84,5 +84,12 @@ window.base = {
     }
 };
 $(function () {
+    var href = window.location.href;
+    var token = window.base.getLocalStorage('token');
+    if (href.indexOf('/cms') != -1 && !token) {
+        window.location.href = '/login';
+    } else if (href.indexOf('/login') != -1 && token) {
+        window.location.href = '/cms';
+    }
     $(window).resize();
 });

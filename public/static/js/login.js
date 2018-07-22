@@ -17,7 +17,7 @@ $(function () {
                 showTips('登录成功');
                 if (res) {
                     window.base.setLocalStorage('token', res.token);
-                    window.location.href = '/';
+                    window.location.href = '/cms';
                 }
             },
             eCallback: function (e) {
