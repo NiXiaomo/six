@@ -2,7 +2,17 @@
 <block name="title">文章</block>
 <block name="css">
     <link href="https://cdn.bootcss.com/select2/4.0.4/css/select2.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-markdown/2.10.0/css/bootstrap-markdown.min.css" rel="stylesheet">
     <style type="text/css">
+        .md-editor, .md-header {
+            border-radius: 4px;
+        }
+
+        textarea[name='body'] {
+            background: initial;
+            padding: 6px 12px;
+            font-family: inherit;
+        }
     </style>
 </block>
 <block name="main">
@@ -25,7 +35,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <textarea name="body" class="form-control" id="body" rows="15"
+                    <textarea name="body" class="form-control" id="body" rows="15" data-provide="markdown"
                               placeholder="请使用 Markdown 格式书写"></textarea>
                     <p class="help-block">注意这是 Markdown，上传图片：
                         <a href="https://github.com/NiXiaomo/six/issues/1" target="_blank">上传图片</a>
@@ -43,9 +53,14 @@
 </block>
 <block name="script">
     <script src="https://cdn.bootcss.com/select2/4.0.4/js/select2.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-markdown/2.10.0/js/bootstrap-markdown.min.js"></script>
     <!--<script src="https://cdn.bootcss.com/js-xss/0.3.3/xss.min.js"></script>-->
     <script type="text/javascript">
         $(function () {
+            // 初始化bootstrap-markdown
+            $("#body").markdown({autofocus: true});
+
+            // 提交
             $("#submit").click(function () {
                 var title = $("#title").val();
                 var tags = $("#tags").val();
